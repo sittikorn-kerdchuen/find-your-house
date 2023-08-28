@@ -25,7 +25,8 @@ class Field {
         do {
             this.locationX = Math.floor(Math.random() * this.fieldWidth); // Random X coordinate
             this.locationY = Math.floor(Math.random() * this.fieldHeight); // Random Y coordinate
-            console.log("Do field before", this.field)
+
+
         } while (!this.isValidStart()); // Ensure a valid starting position
         this.field[this.locationY][this.locationX] = pathCharacter;
     }
@@ -117,6 +118,7 @@ class Field {
         console.log("1. Newbie");
         console.log("2. Child");
         console.log("3. A little older than a child");
+        console.log("4. Easy mode for everyone"); 
         console.log("***If another level you must contact developer!!");
         let fieldSize = [];
 
@@ -129,6 +131,8 @@ class Field {
                 return fieldSize = [20,20,0.2]
             case '3':
                 return fieldSize = [30,30,0.3]
+            case '4':
+                return fieldSize = [40,40,0.35]
             default:
                 console.log("Invalid choice. Using default difficulty.");
                 return this.challenge();
@@ -205,17 +209,18 @@ class Field {
             this.locationX < this.field[0].length
         );
     }
-
+// position hat
     isHat() {
         return this.field[this.locationY][this.locationX] === hat;
     }
-
+// posittion hole
     isHole() {
         return this.field[this.locationY][this.locationX] === hole;
     }
 
 }
 
+// Call game method and enjoy :)
 const challenge = Field.challenge();
 const newField = new Field(Field.generateField(challenge[0], challenge[1], challenge[2]));
 newField.play();

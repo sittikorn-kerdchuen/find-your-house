@@ -3,12 +3,13 @@ const prompt = require('prompt-sync')({
 });
 const clear = require('clear-screen')
 
+// Set variable to set field ,hat and charactor
 const hat = '⛺';
 const hole = '⬛';
 const fieldCharacter = '⬜';
 const pathCharacter = '🐌';
 
-
+// Create Field
 class Field {
     constructor(field = [
         []
@@ -19,7 +20,7 @@ class Field {
         this.fieldHeight = field.length;
         this.fieldWidth = field[0].length;
 
-        //this.field[this.locationY][this.locationX] = pathCharacter;
+        
 
         do {
             this.locationX = Math.floor(Math.random() * this.fieldWidth); // Random X coordinate
@@ -30,7 +31,7 @@ class Field {
     }
 
     isValidStart() {
-        // Check if the player character is surrounded by valid positions
+        // Check if the player character is surrounded by valid positions 
         for (let y = this.locationY - 1; y <= this.locationY + 1; y++) {
             for (let x = this.locationX - 1; x <= this.locationX + 1; x++) {
                 if (
@@ -45,6 +46,7 @@ class Field {
         return this.hasPathToHat(this.locationX, this.locationY);
     }
 
+    // Creat function for path to go find hat
     hasPathToHat(startX, startY) {
         const visited = Array.from({
             length: this.fieldHeight
@@ -84,7 +86,7 @@ class Field {
     }
 
 
-
+    // Generate field and get params for set field size and set rate hole
     static generateField(height, width, percentage = 0.2) {
         let field = new Array(height);
 
@@ -109,15 +111,17 @@ class Field {
         field[hatLocation.y][hatLocation.x] = hat;
         return field;
     }
-
+    // Create mode for player select 
     static challenge() {
         console.log("Choose difficulty level:");
         console.log("1. Newbie");
         console.log("2. Child");
         console.log("3. A little older than a child");
+        console.log("***If another level you must contact developer!!");
         let fieldSize = [];
 
-        const choice = prompt("Select your ways");
+        // and can choose mode 
+        const choice = prompt("Select your ways : ");
         switch (choice) {
             case '1':
                 return fieldSize = [10,10,0.1]
@@ -127,18 +131,19 @@ class Field {
                 return fieldSize = [30,30,0.3]
             default:
                 console.log("Invalid choice. Using default difficulty.");
-                return 0.2;
+                return this.challenge();
         }
     }
 
+    // Ceate function for clear terminal and replace same posittion
     clearField(){
-        
         clear();
         this.instructions();
         this.field.forEach(e => console.log(e.join("")))
         
     }
 
+    // Create check Playing each condition
     play() {
         let playing = true;
         while (playing) {
@@ -162,12 +167,14 @@ class Field {
         }
     }
 
+    // intro and guide how to play this game
     instructions() {
         console.log(
-            "\n**INSTRUCTIONS:**\nFIND THE HOUSE! \nType W, S, A, D, (Up, Down, Left, Right) and hit enter to find the hat --> ^\nPress control + c to exit.\n"
+            "\n**INSTRUCTIONS:**\nFIND THE HOUSE! \nType W, S, A, D, (Up, Down, Left, Right) and hit enter to find the house --> ^\nPress control + c to exit.\n"
         );
     }
 
+    // Queston every time before and after player select turn
     askQuestion() {
         const answer = prompt("Which way do you want to go? --> ").toLowerCase();
         switch (answer) {
@@ -184,7 +191,7 @@ class Field {
                 this.locationX += 1;
                 break;
             default:
-                console.log("Invalid. Enter U, D, L or R.");
+                console.log("Invalid. Enter W, S, D or A.");
                 this.askQuestion();
                 break;
         }
